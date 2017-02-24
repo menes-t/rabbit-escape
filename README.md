@@ -57,3 +57,4 @@ Code, graphics, sound effects by [Andy Balaam](http://www.artificialworlds.net) 
 Music samples by [tryad](http://tryad.org/).
 
 M Enes TURGUT
+Furkan Şenyurt
