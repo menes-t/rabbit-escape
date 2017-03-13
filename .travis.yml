@@ -4,3 +4,4 @@ jdk:
     - openjdk7
 install: ./install-dependencies.sh
 script: make
+sudo: required
