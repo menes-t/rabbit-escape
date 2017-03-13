@@ -3,5 +3,5 @@ jdk:
   - oraclejdk8
     - openjdk7
 install: ./install-dependencies.sh
-script: make
+script: make compile
 sudo: required
