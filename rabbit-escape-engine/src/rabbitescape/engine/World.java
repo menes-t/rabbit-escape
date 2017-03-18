@@ -2,12 +2,8 @@ package rabbitescape.engine;
 
 import static rabbitescape.engine.util.Util.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
+import rabbitescape.engine.Token.Type;
 import rabbitescape.engine.WaterRegion;
 import rabbitescape.engine.err.RabbitEscapeException;
 import rabbitescape.engine.textworld.Comment;
@@ -107,7 +103,7 @@ public class World
     public final LookupTable2D<WaterRegion> waterTable;
     public final List<Rabbit> rabbits;
     public final List<Thing> things;
-    public final Map<Token.Type, Integer> abilities;
+    public Map<Token.Type, Integer> abilities;
     public final String name;
     public final String description;
     public final String author_name;
@@ -296,7 +292,10 @@ public class World
         }
         return blockTable.getItemAt( x, y );
     }
-
+    
+    public boolean flag = false;
+    public int count=0;
+    public int toplam;
     public CompletionState completionState()
     {
         if ( paused )
@@ -316,7 +315,42 @@ public class World
         }
         else
         {
+            toplam=0;
+            Set<Token.Type> keys=abilities.keySet();
+            for(Type i :keys){
+//              System.out.println(abilities.get(i ));
+                toplam+=abilities.get( i );
+            }
+            if(toplam==0 && count==0){
+                count++;
+                TimerTask timerTask = new MyTimerTask();
+                Timer timer = new Timer();
+                timer.schedule(timerTask,0);
+            }
             return CompletionState.RUNNING;
+        }
+    }
+    class MyTimerTask extends TimerTask{
+        @Override
+        public void run() {
+            System.out.println("Sure basladi");
+            completeTask();
+            System.out.println("20 saniye beklendi");
+        }
+        public void completeTask() {
+            try {
+                for(int i=0;i<20;i++){
+                    Thread.sleep(1000);//burda oyunu bekletiyoruz
+                    System.out.println(i + ". saniye gecti");
+                }
+
+
+                flag=true; //süre bittigi anda
+                this.cancel(); //iptal ettik
+                System.out.println("timer bitti");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -425,4 +459,5 @@ public class World
         }
         return waterAmounts;
     }
+
 }
