@@ -1483,8 +1483,8 @@ public class TestBridging
         );
 
         // Add 2 rabbits in the same place
-        world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT ) );
-        world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT ) );
+        world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT , Rabbit.RabbitType.NORMAL) );
+        world.rabbits.add( new Rabbit( 2, 2, Direction.RIGHT , Rabbit.RabbitType.NORMAL) );
 
         world.step();
         assertThat(
