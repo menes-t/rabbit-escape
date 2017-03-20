@@ -37,6 +37,7 @@ public class TestTextWorldManip
             "#\\  M   i/#",
             "#  O     d#",
             "#r j )(  b#",
+            "# R J     #",
             "###########"
         };
 

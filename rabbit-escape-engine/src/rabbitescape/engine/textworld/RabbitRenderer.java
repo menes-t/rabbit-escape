@@ -28,6 +28,19 @@ public class RabbitRenderer
 
     private static char charForRabbit( Rabbit rabbit )
     {
-        return rabbit.dir == RIGHT ? 'r' : 'j';
+        if(rabbit.dir == RIGHT){
+            if(rabbit.type.equals(Rabbit.RabbitType.NORMAL)){
+                return 'r';
+            } else if (rabbit.type.equals(Rabbit.RabbitType.BOSS)){
+                return 'R';
+            }
+        } else{
+            if(rabbit.type.equals(Rabbit.RabbitType.NORMAL)){
+                return 'j';
+            } else if (rabbit.type.equals(Rabbit.RabbitType.BOSS)){
+                return 'J';
+            }
+        }
+        return ' ';
     }
 }

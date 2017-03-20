@@ -555,6 +555,20 @@ public class LineProcessor
                 rabbits.add( r );
                 break;
             }
+            case 'R':
+            {
+                Rabbit r = new Rabbit( x, y, RIGHT , Rabbit.RabbitType.BOSS);
+                ret = r;
+                rabbits.add( r );
+                break;
+            }
+            case 'J':
+            {
+                Rabbit r = new Rabbit( x, y, LEFT , Rabbit.RabbitType.BOSS);
+                ret = r;
+                rabbits.add( r );
+                break;
+            }
             case 'Q':
             {
                 ret = new Entrance( x, y );
