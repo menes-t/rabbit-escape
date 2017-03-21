@@ -80,7 +80,10 @@ public class World
         public final Dimension worldSize;
 
         public CantAddTokenOutsideWorld(
-            Token.Type ability, int x, int y, Dimension worldSize )
+            Token.Type ability,
+            int x,
+            int y,
+            Dimension worldSize )
         {
             super( ability );
             this.x = x;
@@ -99,7 +102,9 @@ public class World
 
     public final Dimension size;
     public final LookupTable2D<Block> blockTable;
-    /** A grid of water. Only one water object should be stored in each location. */
+    /**
+     * A grid of water. Only one water object should be stored in each location.
+     */
     public final LookupTable2D<WaterRegion> waterTable;
     public final List<Rabbit> rabbits;
     public final List<Thing> things;
@@ -150,8 +155,7 @@ public class World
         boolean paused,
         Comment[] comments,
         WorldStatsListener statsListener,
-        VoidMarkerStyle.Style voidStyle
-    )
+        VoidMarkerStyle.Style voidStyle )
     {
         this.size = size;
         this.rabbits = rabbits;
@@ -197,7 +201,7 @@ public class World
     private void init()
     {
         // Number the rabbits if necessary
-        for ( Rabbit r: rabbits )
+        for ( Rabbit r : rabbits )
         {
             rabbitIndex( r );
         }
@@ -215,8 +219,8 @@ public class World
     public void rabbitIndex( Rabbit r )
     {
         r.index = ( r.index == Rabbit.NOT_INDEXED )
-                ? ++rabbit_index_count
-                : r.index;
+            ? ++rabbit_index_count
+            : r.index;
     }
 
     public int getRabbitIndexCount()
@@ -225,17 +229,17 @@ public class World
     }
 
     /**
-     * For levels with some rabbits in to start with.
-     * Then entering rabbits are indexed correctly.
+     * For levels with some rabbits in to start with. Then entering rabbits are
+     * indexed correctly.
      */
     public void countRabbitsForIndex()
     {
-        rabbit_index_count = rabbit_index_count == 0 ?
-            rabbits.size() : rabbit_index_count;
-        for ( Rabbit r:rabbits )
+        rabbit_index_count = rabbit_index_count == 0 ? rabbits.size()
+            : rabbit_index_count;
+        for ( Rabbit r : rabbits )
         {
-            rabbit_index_count = rabbit_index_count > r.index ?
-                rabbit_index_count : r.index;
+            rabbit_index_count = rabbit_index_count > r.index
+                ? rabbit_index_count : r.index;
         }
     }
 
@@ -283,19 +287,20 @@ public class World
         return chain( waterTable.getItems(), rabbits, things );
     }
 
-    public Block getBlockAt( int x, int y)
+    public Block getBlockAt( int x, int y )
     {
-        if ( x <  0          || y <  0           ||
-             x >= size.width || y >= size.height  )
+        if ( x < 0 || y < 0 ||
+            x >= size.width || y >= size.height )
         {
             return null;
         }
         return blockTable.getItemAt( x, y );
     }
-    
+
     public boolean flag = false;
-    public int count=0;
+    public int count = 0;
     public int toplam;
+
     public CompletionState completionState()
     {
         if ( paused )
@@ -315,40 +320,56 @@ public class World
         }
         else
         {
-            toplam=0;
-            Set<Token.Type> keys=abilities.keySet();
-            for(Type i :keys){
-//              System.out.println(abilities.get(i ));
-                toplam+=abilities.get( i );
+            toplam = 0;
+            Set<Token.Type> keys = abilities.keySet();
+            for ( Type i : keys )
+            {
+                // System.out.println(abilities.get(i ));
+                toplam += abilities.get( i );
             }
-            if(toplam==0 && count==0){
+            if ( toplam == 0 && count == 0 )
+            {
                 count++;
                 TimerTask timerTask = new MyTimerTask();
                 Timer timer = new Timer();
-                timer.schedule(timerTask,0);
+                timer.schedule( timerTask, 0 );
             }
             return CompletionState.RUNNING;
         }
     }
-    class MyTimerTask extends TimerTask{
+
+    class MyTimerTask extends TimerTask
+    {
         @Override
-        public void run() {
-            System.out.println("Sure basladi");
+        public void run()
+        {
+            System.out.println( "Sure basladi" );
             completeTask();
-            System.out.println("20 saniye beklendi");
+            System.out.println( "20 saniye beklendi" );
         }
-        public void completeTask() {
-            try {
-                for(int i=0;i<20;i++){
-                    Thread.sleep(1000);//burda oyunu bekletiyoruz
-                    System.out.println(i + ". saniye gecti");
+        public void completeTask()
+        {
+            try
+            {
+
+                for ( int i = 0; i < 20; i++ )
+                {
+                    if ( completionState() != CompletionState.WON
+                        && completionState() != CompletionState.LOST )
+                    { // zamanlayici calisirken
+                      // oyun kazanilir yada kaybedilirse
+                        Thread.sleep( 1000 );
+                        System.out.println( i + ". saniye gecti" );
+
+                    }
+
                 }
 
-
-                flag=true; //süre bittigi anda
-                this.cancel(); //iptal ettik
-                System.out.println("timer bitti");
-            } catch (InterruptedException e) {
+                flag = true;
+                this.cancel();
+            }
+            catch ( InterruptedException e )
+            {
                 e.printStackTrace();
             }
         }
@@ -382,7 +403,7 @@ public class World
             if ( thing.x == x && thing.y == y )
             {
                 if ( !changes.tokensToRemove.contains( thing ) &&
-                     !changes.fireToRemove.contains( thing ) )
+                    !changes.fireToRemove.contains( thing ) )
                 {
                     ret.add( thing );
                 }
@@ -436,7 +457,8 @@ public class World
     public void recalculateWaterRegions( Position point )
     {
         waterTable.removeItemsAt( point.x, point.y );
-        WaterRegionFactory.createWaterRegionsAtPoint( blockTable, waterTable, point.x, point.y );
+        WaterRegionFactory.createWaterRegionsAtPoint( blockTable, waterTable,
+            point.x, point.y );
     }
 
     public Map<Position, Integer> getWaterContents()
