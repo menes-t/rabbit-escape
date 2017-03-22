@@ -19,12 +19,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
 
 import rabbitescape.engine.Token;
+import rabbitescape.engine.Token.Type;
 import rabbitescape.engine.config.Config;
 import rabbitescape.engine.config.ConfigTools;
 import rabbitescape.engine.config.TapTimer;
@@ -61,7 +63,9 @@ public class GameUi implements StatsChangedListener
             TapTimer.newTap();
             if ( noScrollRequired() )
             {
+
                 click( e.getPoint() );
+
                 return;
             }
             msTimePress = System.currentTimeMillis();
@@ -627,14 +631,13 @@ public class GameUi implements StatsChangedListener
                                / worldTileSizeInPixels
                                );
     }
-
+    boolean answer;
     private void click( Point pixelPosition )
     {
         Point p = pixelToCell( pixelPosition );
 
         addToken( p.x , p.y );
     }
-
     protected void addToken(int tileX, int tileY )
     {
         if ( chosenAbility == null )
@@ -644,13 +647,16 @@ public class GameUi implements StatsChangedListener
 
         int numLeft = gameLaunch.addToken( tileX, tileY, chosenAbility );
 
+
         if ( numLeft == 0 )
         {
             menu.abilities.get( chosenAbility ).setEnabled( false );
+                //menu.abilities.get( chosenAbility ).setEnabled( true );
         }
 
         updateChosenAbility();
     }
+
 
     protected void chooseAbility( Token.Type ability )
     {
@@ -678,8 +684,22 @@ public class GameUi implements StatsChangedListener
             }
             default:
             {
+                if(gameLaunch.world.flag){
+                        gameLaunch.world.setPaused( true );
+                        answer = gameLaunch.askBonus();
+                        if(answer){
+                            Set<Token.Type> keys2=gameLaunch.world.abilities.keySet();
+                            for (Type i : keys2) {
+                                gameLaunch.world.abilities.replace(i, 2);
+                            }
+                            
+                        }
+                        gameLaunch.world.flag = false;
+                        gameLaunch.world.setPaused( false );
+                }
                 break;
             }
         }
     }
+
 }
