@@ -689,10 +689,15 @@ public class GameUi implements StatsChangedListener
                         answer = gameLaunch.askBonus();
                         if(answer){
                             Set<Token.Type> keys2=gameLaunch.world.abilities.keySet();
+                            System.out.println("girdi");
                             for (Type i : keys2) {
                                 gameLaunch.world.abilities.replace(i, 2);
                             }
-                            
+                            Set<Token.Type> keys = gameLaunch.getAbilities().keySet();
+                            for (Token.Type i : keys) {
+                                menu.abilities.get(i).setEnabled(true);
+                            }
+                            updateChosenAbility();
                         }
                         gameLaunch.world.flag = false;
                         gameLaunch.world.setPaused( false );
