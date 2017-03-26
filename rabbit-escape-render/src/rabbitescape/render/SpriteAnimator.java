@@ -168,6 +168,12 @@ public class SpriteAnimator
         }
 
         String frameName = thing.state.name().toLowerCase( Locale.ENGLISH );
+        String bossPrefix = "boss_";
+        if(thing instanceof Rabbit){
+            if(( ( Rabbit )thing ).type.equals( Rabbit.RabbitType.BOSS )){
+                frameName = bossPrefix + frameName;
+            }
+        }
         Animation animation = animationCache.get( frameName );
 
         if ( animation == null )
