@@ -34,8 +34,6 @@ public class SwingGameLaunch implements GameLaunch
      * A loop that just draws the game window when it's behind the
      * intro dialog.
      */
-    //Biz oyunu durdurmadan box acmaya calistigimda exception atiyor.O yüzden o boxı koymak icin
-    //farkli bir oyun windowu yaratiliyor.
     class MiniGameLoop implements Runnable
     {
         public boolean running = true;
@@ -64,7 +62,7 @@ public class SwingGameLaunch implements GameLaunch
     public final SwingGraphics graphics;
     private final GameUi jframe;
 
-    private final GameLoop loop;
+    public final GameLoop loop;
     private final MainJFrame frame;
     public final SolutionRecorderTemplate solutionRecorder;
     private final SwingPlayback swingPlayback;
@@ -207,6 +205,33 @@ public class SwingGameLaunch implements GameLaunch
         return holder.answer;
     }
 
+    public int bonus()
+    {
+        final AnswerHolder holder = new AnswerHolder();
+        final String[] buttons = new String[] { t( "NO" ), t( "YES" ) };
+        runSwingCodeWithGameLoopBehind(
+                new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        holder.answer = JOptionPane.showOptionDialog(
+                                frame,
+                                "At last 20 seconds the game did not changed. Do you want a bonus?",
+                                "The game is paused.Bonus?",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE,
+                                null,
+                                buttons,
+                                buttons[buttons.length -1 ]
+                        );
+                    }
+                }
+        );
+
+        return holder.answer;
+    }
+
     /**
      * Must be called from within the event loop.
      */
@@ -238,36 +263,32 @@ public class SwingGameLaunch implements GameLaunch
             bgDraw.running = false;
         }
     }
-    
-    //pencereyi olusturuyorum, kullanıcıdan cevap alıyoruz
     public boolean askBonus()
 {
-    
-    MiniGameLoop bgDraw = new MiniGameLoop(); //nesne
+    MiniGameLoop bgDraw = new MiniGameLoop();
 
-    new Thread( bgDraw ).start(); //thread olarak , oyundan bagimsiz baslat
+    new Thread( bgDraw ).start();
 
     try
     {
-        String[] buttons = new String[] { t( "NO" ), t( "YES" ) }; //iki tane buton tanimladik
+        String[] buttons = new String[] { t( "NO" ), t( "YES" ) };
 
-        //pencere olustuyoruz
         int ret = JOptionPane.showOptionDialog(
                 frame,
                 t( "At last 20 seconds the game did not changed. Do you want a bonus?" ),
-                t( "Bonus?" ),
-                JOptionPane.YES_NO_OPTION, //Buton 
+                t( "The game is paused.Bonus?" ),
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 buttons,
                 buttons[1]
         );
 
-        return ( ret == 1 ); //yes cevabi gelirse return true
+        return ( ret == 1 );
     }
     finally
     {
-        bgDraw.running = false; //bgdrawi durduruyor.Bu sayede 1 kez calisiyor
+        bgDraw.running = false;
     }
 }
 
