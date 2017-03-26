@@ -692,6 +692,7 @@ public class GameUi implements StatsChangedListener
                     updateChosenAbility();
                 }
                 gameLaunch.world.flag = false;
+                gameLaunch.loop.run();
             }
             break;
         }
