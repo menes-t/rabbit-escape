@@ -124,6 +124,7 @@ public class World
     public final String[] solutions;
     public final Comment[] comments;
     public final int num_rabbits;
+    public final int num_boss_rabbits;
     public final int num_to_save;
     public final int[] rabbit_delay;
 
@@ -152,6 +153,7 @@ public class World
         String[] hints,
         String[] solutions,
         int num_rabbits,
+        int num_boss_rabbits,
         int num_to_save,
         int[] rabbit_delay,
         String music,
@@ -175,6 +177,7 @@ public class World
         this.hints = hints;
         this.solutions = solutions;
         this.num_rabbits = num_rabbits;
+        this.num_boss_rabbits = num_boss_rabbits;
         this.num_to_save = num_to_save;
         this.rabbit_delay = rabbit_delay;
         this.music = music;

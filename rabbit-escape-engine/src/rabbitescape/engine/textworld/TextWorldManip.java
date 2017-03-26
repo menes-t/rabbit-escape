@@ -36,6 +36,7 @@ public class TextWorldManip
     public  static final String hint                 = "hint";
     public  static final String solution             = "solution";
     private static final String num_rabbits          = "num_rabbits";
+    private static final String num_boss_rabbits     = "num_boss_rabbits";
     private static final String num_to_save          = "num_to_save";
     private static final String rabbit_delay         = "rabbit_delay";
     private static final String music                = "music";
@@ -51,6 +52,7 @@ public class TextWorldManip
 
     public static final List<String> META_INTS = Arrays.asList(
         num_rabbits,
+        num_boss_rabbits,
         num_to_save,
         num_saved,
         num_killed,
@@ -135,10 +137,11 @@ public class TextWorldManip
         );
 
         int num_rabs = processor.metaInt( num_rabbits, 10 );
+        int num_boss_rabs = processor.metaInt( num_boss_rabbits , 0 );
 
         World world = createWorldFromLineProcessor(
             nameIfNoneSupplied, statsListener, blocks, rabbits, things, waterAmounts,
-            abilities, processor, num_rabs );
+            abilities, processor, num_rabs, num_boss_rabs);
 
         world.countRabbitsForIndex();
 
@@ -154,7 +157,8 @@ public class TextWorldManip
         Map<Position, Integer> waterAmounts,
         Map<Token.Type, Integer> abilities,
         LineProcessor processor,
-        int num_rabs )
+        int num_rabs,
+        int num_boss_rabs)
     {
 
         return new World(
@@ -171,6 +175,7 @@ public class TextWorldManip
             processor.metaStringArrayByKey( hint, new String[] {} ),
             processor.metaStringArrayByKey( solution, new String[] {} ),
             num_rabs,
+            num_boss_rabs,
             processor.metaInt( num_to_save,  1 ),
             processor.metaIntArray( rabbit_delay, new int[]{4} ),
             processor.metaString( music, null ),
@@ -201,6 +206,7 @@ public class TextWorldManip
             new String[] {}, //hints
             new String[] {}, //solutions
             0,               //num_rabs
+            0,
             1,               //num_to_save
             new int[]{4},    //rabbit_delay
             null,            //music

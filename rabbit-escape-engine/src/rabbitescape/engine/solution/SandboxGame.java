@@ -55,6 +55,7 @@ public class SandboxGame
             Arrays.copyOf( world.hints, world.hints.length ),
             Arrays.copyOf( world.solutions, world.solutions.length ),
             world.num_rabbits,
+            world.num_boss_rabbits,
             world.num_to_save,
             world.rabbit_delay,
             world.music,

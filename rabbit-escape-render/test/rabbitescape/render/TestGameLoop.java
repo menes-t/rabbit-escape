@@ -157,6 +157,7 @@ public class TestGameLoop
                 w.hints,
                 w.solutions,
                 w.num_rabbits,
+                w.num_boss_rabbits,
                 w.num_to_save,
                 w.rabbit_delay,
                 null,
