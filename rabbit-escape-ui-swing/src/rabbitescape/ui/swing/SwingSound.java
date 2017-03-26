@@ -1,7 +1,7 @@
 package rabbitescape.ui.swing;
 
 import static rabbitescape.engine.util.Util.*;
-
+import rabbitescape.ui.swing.GameUi;
 import javax.sound.sampled.Clip;
 
 import rabbitescape.render.androidlike.Sound;
@@ -14,7 +14,7 @@ public class SwingSound implements Sound
 
     public static Sound create( boolean muted )
     {
-        // Disable all sound in OpenJDK.  It causes frequent crashes.
+        // Disable all sound in OpenJDK. It causes frequent crashes.
         // See https://github.com/andybalaam/rabbit-escape/issues/95
         if ( System.getProperty( "java.vm.name" ).contains( "OpenJDK" ) )
         {
@@ -40,10 +40,16 @@ public class SwingSound implements Sound
         {
             return;
         }
-
         try
         {
-            cache.get( "sounds/" + name ).start();
+            if ( GameUi.flag == true )
+            {
+                cache.get( "sounds/" + "Bonus" ).start();
+            }
+            else
+            {
+                cache.get( "sounds/" + name ).start();
+            }
         }
         catch ( Throwable t )
         {
@@ -74,8 +80,8 @@ public class SwingSound implements Sound
             return;
         }
 
-        stopMusic();   // Could uncache here, but Java gets annoyed if you
-                       // keep loading and unloading clips.
+        stopMusic(); // Could uncache here, but Java gets annoyed if you
+                     // keep loading and unloading clips.
         music = name;
 
         if ( !muted )
