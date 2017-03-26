@@ -11,6 +11,7 @@ public class SwingSound implements Sound
     private final SwingSoundCache cache;
     private boolean muted;
     private String music;
+    public boolean flag = true;
 
     public static Sound create( boolean muted )
     {
@@ -42,14 +43,17 @@ public class SwingSound implements Sound
         }
         try
         {
-            if ( GameUi.flag == true )
+            if ( GameUi.flag )
             {
+
                 cache.get( "sounds/" + "Bonus" ).start();
+
             }
             else
             {
                 cache.get( "sounds/" + name ).start();
             }
+
         }
         catch ( Throwable t )
         {

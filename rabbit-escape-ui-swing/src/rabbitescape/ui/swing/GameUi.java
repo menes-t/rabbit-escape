@@ -671,17 +671,20 @@ public class GameUi implements StatsChangedListener
         }
         default:
         {
+            if ( gameLaunch.world.topBarFlag )
+            {
+                topBar.countTimer( gameLaunch.world.time );
+            }
 
             if ( gameLaunch.world.flag )
             {
+                flag = true;
                 answer = gameLaunch.bonus();
                 if ( answer == 1 )
                 {
                     Set<Token.Type> keys2 = gameLaunch.world.abilities.keySet();
-                    System.out.println( "girdi" );
                     for ( Type i : keys2 )
                     {
-                        flag = true;
                         gameLaunch.world.abilities.replace( i, 2 );
                     }
                     Set<Token.Type> keys = gameLaunch.getAbilities().keySet();
@@ -690,9 +693,12 @@ public class GameUi implements StatsChangedListener
                         menu.abilities.get( i ).setEnabled( true );
                     }
                     updateChosenAbility();
+
                 }
                 gameLaunch.world.flag = false;
                 gameLaunch.loop.run();
+                flag = false;
+
             }
             break;
         }
@@ -700,4 +706,3 @@ public class GameUi implements StatsChangedListener
     }
 
 }
-
