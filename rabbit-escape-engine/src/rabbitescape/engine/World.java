@@ -13,6 +13,13 @@ import rabbitescape.engine.util.Position;
 
 public class World
 {
+
+    public boolean flag = false;
+    public int count = 0;
+    public int toplam;
+    public boolean topBarFlag = false;
+    public int time = 0;
+
     public static class DontStepAfterFinish extends RabbitEscapeException
     {
         private static final long serialVersionUID = 1L;
@@ -297,10 +304,6 @@ public class World
         return blockTable.getItemAt( x, y );
     }
 
-    public boolean flag = false;
-    public int count = 0;
-    public int toplam;
-
     public CompletionState completionState()
     {
         if ( paused )
@@ -324,7 +327,6 @@ public class World
             Set<Token.Type> keys = abilities.keySet();
             for ( Type i : keys )
             {
-                // System.out.println(abilities.get(i ));
                 toplam += abilities.get( i );
             }
             if ( toplam == 0 && count == 0 )
@@ -343,30 +345,28 @@ public class World
         @Override
         public void run()
         {
-            System.out.println( "Sure basladi" );
             completeTask();
-            System.out.println( "20 saniye beklendi" );
         }
+
         public void completeTask()
         {
             try
             {
-
+                topBarFlag = true;
                 for ( int i = 0; i < 20; i++ )
                 {
+                    time++;
                     if ( completionState() != CompletionState.WON
                         && completionState() != CompletionState.LOST )
-                    { // zamanlayici calisirken
-                      // oyun kazanilir yada kaybedilirse
+                    {
                         Thread.sleep( 1000 );
-                        System.out.println( i + ". saniye gecti" );
-
                     }
 
                 }
 
                 flag = true;
                 this.cancel();
+                topBarFlag = false;
             }
             catch ( InterruptedException e )
             {

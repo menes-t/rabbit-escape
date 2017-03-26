@@ -31,11 +31,8 @@ import rabbitescape.ui.swing.SwingGameInit.WhenUiReady;
 public class SwingGameLaunch implements GameLaunch
 {
     /**
-     * A loop that just draws the game window when it's behind the
-     * intro dialog.
+     * A loop that just draws the game window when it's behind the intro dialog.
      */
-    //Biz oyunu durdurmadan box acmaya calistigimda exception atiyor.O yüzden o boxı koymak icin
-    //farkli bir oyun windowu yaratiliyor.
     class MiniGameLoop implements Runnable
     {
         public boolean running = true;
@@ -64,15 +61,16 @@ public class SwingGameLaunch implements GameLaunch
     public final SwingGraphics graphics;
     private final GameUi jframe;
 
-    private final GameLoop loop;
+    public final GameLoop loop;
     private final MainJFrame frame;
     public final SolutionRecorderTemplate solutionRecorder;
     private final SwingPlayback swingPlayback;
     private final FrameDumper frameDumper;
 
     /**
-     * @param solutionIndex natural number values indicate demo mode. It is the index of the
-     *                      solution from the rel file to play.
+     * @param solutionIndex
+     *            natural number values indicate demo mode. It is the index of
+     *            the solution from the rel file to play.
      */
     public SwingGameLaunch(
         SwingGameInit init,
@@ -82,12 +80,12 @@ public class SwingGameLaunch implements GameLaunch
         Config config,
         PrintStream debugout,
         String solution,
-        boolean frameDumping
-    )
+        boolean frameDumping )
     {
         this.world = world;
 
-        SolutionInterpreter solutionInterpreter = createSolutionInterpreter( solution, world );
+        SolutionInterpreter solutionInterpreter = createSolutionInterpreter(
+            solution, world );
 
         this.frame = init.frame;
         this.solutionRecorder = new SolutionRecorder();
@@ -100,7 +98,7 @@ public class SwingGameLaunch implements GameLaunch
             this.frameDumper = FrameDumper.createInactiveDumper();
         }
         this.swingPlayback = new SwingPlayback( this );
-        WaterAnimation waterAnimation = new WaterAnimation( world ) ;
+        WaterAnimation waterAnimation = new WaterAnimation( world );
         this.physics = new GeneralPhysics(
             world,
             waterAnimation,
@@ -109,8 +107,7 @@ public class SwingGameLaunch implements GameLaunch
             solutionRecorder,
             solutionInterpreter,
             swingPlayback,
-            frameDumping
-        );
+            frameDumping );
         // This blocks until the UI is ready:
         WhenUiReady uiPieces = init.waitForUi.waitForUi();
 
@@ -121,8 +118,7 @@ public class SwingGameLaunch implements GameLaunch
             uiPieces.bitmapCache,
             sound,
             frameDumper,
-            waterAnimation
-        );
+            waterAnimation );
 
         // Used for redraw after window is resized.
         frame.setGraphics( graphics );
@@ -132,7 +128,8 @@ public class SwingGameLaunch implements GameLaunch
         sound.setMusic( world.music );
 
         loop = new GameLoop(
-            new SwingInput(), physics, waterAnimation, graphics, config, debugout );
+            new SwingInput(), physics, waterAnimation, graphics, config,
+            debugout );
     }
 
     public GameUi getUi()
@@ -145,7 +142,9 @@ public class SwingGameLaunch implements GameLaunch
         physics.fast = !physics.fast;
     }
 
-    private static SolutionInterpreter createSolutionInterpreter( String solution, World world )
+    private static SolutionInterpreter createSolutionInterpreter(
+        String solution,
+        World world )
     {
         if ( solution.equals( NOT_DEMO_MODE ) )
         {
@@ -180,7 +179,9 @@ public class SwingGameLaunch implements GameLaunch
      * Must not be called from within event loop.
      */
     public int showDialog(
-        final String title, final Object message, final Object[] options )
+        final String title,
+        final Object message,
+        final Object[] options )
     {
         final AnswerHolder holder = new AnswerHolder();
 
@@ -198,11 +199,34 @@ public class SwingGameLaunch implements GameLaunch
                         JOptionPane.INFORMATION_MESSAGE,
                         null,
                         options,
-                        options[ options.length - 1 ]
-                    );
+                        options[options.length - 1] );
                 }
-            }
-        );
+            } );
+
+        return holder.answer;
+    }
+
+    public int bonus()
+    {
+        final AnswerHolder holder = new AnswerHolder();
+        final String[] buttons = new String[] { t( "NO" ), t( "YES" ) };
+        runSwingCodeWithGameLoopBehind(
+            new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    holder.answer = JOptionPane.showOptionDialog(
+                        frame,
+                        "Do you want a bonus?",
+                        "The game is paused.Bonus?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        buttons,
+                        buttons[buttons.length - 1] );
+                }
+            } );
 
         return holder.answer;
     }
@@ -228,8 +252,7 @@ public class SwingGameLaunch implements GameLaunch
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 buttons,
-                buttons[1]
-            );
+                buttons[1] );
 
             return ( ret == 1 );
         }
@@ -238,38 +261,34 @@ public class SwingGameLaunch implements GameLaunch
             bgDraw.running = false;
         }
     }
-    
-    //pencereyi olusturuyorum, kullanıcıdan cevap alıyoruz
+
     public boolean askBonus()
-{
-    
-    MiniGameLoop bgDraw = new MiniGameLoop(); //nesne
-
-    new Thread( bgDraw ).start(); //thread olarak , oyundan bagimsiz baslat
-
-    try
     {
-        String[] buttons = new String[] { t( "NO" ), t( "YES" ) }; //iki tane buton tanimladik
+        MiniGameLoop bgDraw = new MiniGameLoop();
 
-        //pencere olustuyoruz
-        int ret = JOptionPane.showOptionDialog(
+        new Thread( bgDraw ).start();
+
+        try
+        {
+            String[] buttons = new String[] { t( "NO" ), t( "YES" ) };
+
+            int ret = JOptionPane.showOptionDialog(
                 frame,
                 t( "At last 20 seconds the game did not changed. Do you want a bonus?" ),
-                t( "Bonus?" ),
-                JOptionPane.YES_NO_OPTION, //Buton 
+                t( "The game is paused.Bonus?" ),
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 buttons,
-                buttons[1]
-        );
+                buttons[1] );
 
-        return ( ret == 1 ); //yes cevabi gelirse return true
+            return ( ret == 1 );
+        }
+        finally
+        {
+            bgDraw.running = false;
+        }
     }
-    finally
-    {
-        bgDraw.running = false; //bgdrawi durduruyor.Bu sayede 1 kez calisiyor
-    }
-}
 
     private void runSwingCodeWithGameLoopBehind( Runnable doRun )
     {
@@ -300,13 +319,12 @@ public class SwingGameLaunch implements GameLaunch
      */
     private void showIntroDialog()
     {
-        if (inDemoMode())
+        if ( inDemoMode() )
         {
             return;
         }
 
-        Util.Function<String, String> insertNewlines =
-            new Util.Function<String, String>()
+        Util.Function<String, String> insertNewlines = new Util.Function<String, String>()
         {
             @Override
             public String apply( String inp )
@@ -322,10 +340,7 @@ public class SwingGameLaunch implements GameLaunch
                 Util.map(
                     insertNewlines,
                     world.hints,
-                    new String[3]
-                )
-            )
-        );
+                    new String[3] ) ) );
     }
 
     private void showDialogs( String title, Object[] messages )
@@ -347,8 +362,7 @@ public class SwingGameLaunch implements GameLaunch
                 retVal = showDialog(
                     title,
                     messages[i],
-                    options
-                );
+                    options );
                 if ( options.length == 1 )
                 {
                     // There was only 1 option - we clicked Start
@@ -406,7 +420,7 @@ public class SwingGameLaunch implements GameLaunch
         }
         else
         {
-            return messages[ i + 1 ];
+            return messages[i + 1];
         }
     }
 
@@ -415,7 +429,7 @@ public class SwingGameLaunch implements GameLaunch
      */
     private void showWonDialog()
     {
-        if (inDemoMode())
+        if ( inDemoMode() )
         {
             try
             {
@@ -432,10 +446,8 @@ public class SwingGameLaunch implements GameLaunch
             t( "You won!" ),
             t(
                 "Saved: ${num_saved}  Needed: ${num_to_save}",
-                DialogText.statsValues( world )
-            ),
-            new Object[] { t( "Ok" ) }
-        );
+                DialogText.statsValues( world ) ),
+            new Object[] { t( "Ok" ) } );
     }
 
     /**
@@ -443,7 +455,7 @@ public class SwingGameLaunch implements GameLaunch
      */
     private void showLostDialog()
     {
-        if (inDemoMode())
+        if ( inDemoMode() )
         {
             try
             {
@@ -460,10 +472,8 @@ public class SwingGameLaunch implements GameLaunch
             t( "You lost!" ),
             t(
                 "Saved: ${num_saved}  Needed: ${num_to_save}",
-                DialogText.statsValues( world )
-            ),
-            new Object[] { t( "Ok" ) }
-        );
+                DialogText.statsValues( world ) ),
+            new Object[] { t( "Ok" ) } );
     }
 
     @Override
@@ -471,20 +481,20 @@ public class SwingGameLaunch implements GameLaunch
     {
         switch ( world.completionState() )
         {
-            case WON:
-            {
-                showWonDialog();
-                break;
-            }
-            case LOST:
-            {
-                showLostDialog();
-                break;
-            }
-            default:
-            {
-                // Maybe the user clicked back - do nothing here
-            }
+        case WON:
+        {
+            showWonDialog();
+            break;
+        }
+        case LOST:
+        {
+            showLostDialog();
+            break;
+        }
+        default:
+        {
+            // Maybe the user clicked back - do nothing here
+        }
         }
 
         jframe.exit();

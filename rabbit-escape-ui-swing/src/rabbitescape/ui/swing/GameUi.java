@@ -20,11 +20,9 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.util.Set;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
-
 import rabbitescape.engine.Token;
 import rabbitescape.engine.Token.Type;
 import rabbitescape.engine.config.Config;
@@ -41,9 +39,11 @@ public class GameUi implements StatsChangedListener
         private int startX = -1;
         private int startY = -1;
         private long msTimePress = 0;
-        /** Time in ms. Longer press-release intervals are interpreted as drags */
-        private final long msClickThreshold =
-            ConfigTools.getInt( uiConfig, CFG_CLICK_THRESHOLD_MS );
+        /**
+         * Time in ms. Longer press-release intervals are interpreted as drags
+         */
+        private final long msClickThreshold = ConfigTools.getInt( uiConfig,
+            CFG_CLICK_THRESHOLD_MS );
 
         @Override
         public void windowClosing( WindowEvent e )
@@ -69,8 +69,8 @@ public class GameUi implements StatsChangedListener
                 return;
             }
             msTimePress = System.currentTimeMillis();
-            startX  = e.getX();
-            startY  = e.getY();
+            startX = e.getX();
+            startY = e.getY();
         }
 
         @Override
@@ -115,8 +115,10 @@ public class GameUi implements StatsChangedListener
          */
         public boolean noScrollRequired()
         {
-            int xRange = canvasScrollBarX.getMaximum() - canvasScrollBarX.getMinimum();
-            int yRange = canvasScrollBarY.getMaximum() - canvasScrollBarY.getMinimum();
+            int xRange = canvasScrollBarX.getMaximum()
+                - canvasScrollBarX.getMinimum();
+            int yRange = canvasScrollBarY.getMaximum()
+                - canvasScrollBarY.getMinimum();
             return ( canvasScrollBarX.getVisibleAmount() == xRange )
                 && ( canvasScrollBarY.getVisibleAmount() == yRange );
         }
@@ -134,10 +136,8 @@ public class GameUi implements StatsChangedListener
                 {
                     int units = e.getUnitsToScroll();
 
-                    if (
-                           canvasScrollBarY.getVisibleAmount()
-                        != canvasScrollBarY.getMaximum()
-                    )
+                    if ( canvasScrollBarY.getVisibleAmount() != canvasScrollBarY
+                        .getMaximum() )
                     {
                         scrollScrollBarBy( canvasScrollBarY, units );
                     }
@@ -152,9 +152,8 @@ public class GameUi implements StatsChangedListener
         private void scrollScrollBarBy( JScrollBar scrollBar, int units )
         {
             scrollBar.setValue(
-                  scrollBar.getValue()
-                + ( units * scrollBar.getUnitIncrement() / 2 )
-            );
+                scrollBar.getValue()
+                    + ( units * scrollBar.getUnitIncrement() / 2 ) );
         }
 
         @Override
@@ -162,26 +161,26 @@ public class GameUi implements StatsChangedListener
         {
             switch ( e.getKeyCode() )
             {
-                case KeyEvent.VK_LEFT:
-                {
-                    scrollScrollBarBy( canvasScrollBarX, -1 );
-                    break;
-                }
-                case KeyEvent.VK_RIGHT:
-                {
-                    scrollScrollBarBy( canvasScrollBarX, 1 );
-                    break;
-                }
-                case KeyEvent.VK_UP:
-                {
-                    scrollScrollBarBy( canvasScrollBarY, -1 );
-                    break;
-                }
-                case KeyEvent.VK_DOWN:
-                {
-                    scrollScrollBarBy( canvasScrollBarY, 1 );
-                    break;
-                }
+            case KeyEvent.VK_LEFT:
+            {
+                scrollScrollBarBy( canvasScrollBarX, -1 );
+                break;
+            }
+            case KeyEvent.VK_RIGHT:
+            {
+                scrollScrollBarBy( canvasScrollBarX, 1 );
+                break;
+            }
+            case KeyEvent.VK_UP:
+            {
+                scrollScrollBarBy( canvasScrollBarY, -1 );
+                break;
+            }
+            case KeyEvent.VK_DOWN:
+            {
+                scrollScrollBarBy( canvasScrollBarY, 1 );
+                break;
+            }
             }
         }
     }
@@ -189,7 +188,7 @@ public class GameUi implements StatsChangedListener
     private static final Color backgroundColor = Color.WHITE;
     private static int[] zoomValues = { 16, 24, 32, 48, 64, 96, 128 };
 
-        // 32x32 is the lowest "reasonable" zoom size
+    // 32x32 is the lowest "reasonable" zoom size
     private static int MIN_AUTO_ZOOM_INDEX = 2;
 
     private final Container contentPane;
@@ -222,8 +221,7 @@ public class GameUi implements StatsChangedListener
         Config uiConfig,
         BitmapCache<SwingBitmap> bitmapCache,
         MainJFrame frame,
-        MenuUi menuUi
-    )
+        MenuUi menuUi )
     {
         this.uiConfig = uiConfig;
         this.bitmapCache = bitmapCache;
@@ -269,7 +267,8 @@ public class GameUi implements StatsChangedListener
     }
 
     private Canvas initCanvas(
-        Container contentPane, Dimension worldSizeInPixels )
+        Container contentPane,
+        Dimension worldSizeInPixels )
     {
         Canvas canvas = new Canvas();
         canvas.setIgnoreRepaint( true );
@@ -290,7 +289,8 @@ public class GameUi implements StatsChangedListener
     private void zoomToFit()
     {
         // Start at MIN_AUTO_ZOOM_INDEX + 1 to enforce at least 32x32
-        for ( int index = MIN_AUTO_ZOOM_INDEX + 1; index < zoomValues.length; ++index )
+        for ( int index = MIN_AUTO_ZOOM_INDEX
+            + 1; index < zoomValues.length; ++index )
         {
             if ( zoomIndexTooBig( index ) )
             {
@@ -305,10 +305,8 @@ public class GameUi implements StatsChangedListener
     {
         int zoom = zoomValues[index];
 
-        return (
-               zoom * gameLaunch.world.size.width > canvas.getWidth()
-            || zoom * gameLaunch.world.size.height > canvas.getHeight()
-        );
+        return ( zoom * gameLaunch.world.size.width > canvas.getWidth()
+            || zoom * gameLaunch.world.size.height > canvas.getHeight() );
     }
 
     private void adjustScrollBars()
@@ -343,7 +341,8 @@ public class GameUi implements StatsChangedListener
             public void abilityChosen( Token.Type ability )
             {
                 chooseAbility( ability );
-                gameLaunch.solutionRecorder.append( new SelectAction( ability ) );
+                gameLaunch.solutionRecorder
+                    .append( new SelectAction( ability ) );
             }
         } );
 
@@ -388,10 +387,8 @@ public class GameUi implements StatsChangedListener
                 java.awt.event.InputEvent.CTRL_DOWN_MASK ),
             KeyStroke.getKeyStroke(
                 KeyEvent.VK_EQUALS,
-                  java.awt.event.InputEvent.CTRL_DOWN_MASK
-                | java.awt.event.InputEvent.SHIFT_DOWN_MASK
-            )
-        );
+                java.awt.event.InputEvent.CTRL_DOWN_MASK
+                    | java.awt.event.InputEvent.SHIFT_DOWN_MASK ) );
 
         menu.zoomOut.addActionListener( new ActionListener()
         {
@@ -407,8 +404,7 @@ public class GameUi implements StatsChangedListener
             "zoom_out",
             KeyStroke.getKeyStroke( KeyEvent.VK_MINUS, 0 ),
             KeyStroke.getKeyStroke( KeyEvent.VK_MINUS,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK )
-        );
+                java.awt.event.InputEvent.CTRL_DOWN_MASK ) );
 
         menu.mute.addActionListener( new ActionListener()
         {
@@ -451,8 +447,7 @@ public class GameUi implements StatsChangedListener
                 {
                     scrollX = e.getValue();
                 }
-            }
-        );
+            } );
 
         canvasScrollBarY.addAdjustmentListener(
             new AdjustmentListener()
@@ -462,8 +457,7 @@ public class GameUi implements StatsChangedListener
                 {
                     scrollY = e.getValue();
                 }
-            }
-        );
+            } );
     }
 
     public void setGameLaunch( SwingGameLaunch gameLaunch )
@@ -476,15 +470,13 @@ public class GameUi implements StatsChangedListener
             buttonSizeInPixels,
             uiConfig,
             backgroundColor,
-            gameLaunch.getAbilities()
-        );
+            gameLaunch.getAbilities() );
 
         this.topBar = new TopBar(
             backgroundColor,
             gameLaunch.world.num_to_save,
             middlePanel,
-            gameLaunch.world.name
-        );
+            gameLaunch.world.name );
 
         frame.pack();
 
@@ -495,13 +487,11 @@ public class GameUi implements StatsChangedListener
 
     public void setWorldSize(
         rabbitescape.engine.util.Dimension worldGridSize,
-        int worldTileSizeInPixels
-    )
+        int worldTileSizeInPixels )
     {
         this.worldSizeInPixels = new Dimension(
             worldGridSize.width * worldTileSizeInPixels,
-            worldGridSize.height * worldTileSizeInPixels
-        );
+            worldGridSize.height * worldTileSizeInPixels );
 
         this.worldTileSizeInPixels = worldTileSizeInPixels;
 
@@ -542,17 +532,17 @@ public class GameUi implements StatsChangedListener
     {
         switch ( gameLaunch.world.completionState() )
         {
-            case RUNNING:
-            case PAUSED:
-            {
-                gameLaunch.checkExplodeAll();
-                break;
-            }
-            default:
-            {
-                // Don't do anything if we've finished already
-                break;
-            }
+        case RUNNING:
+        case PAUSED:
+        {
+            gameLaunch.checkExplodeAll();
+            break;
+        }
+        default:
+        {
+            // Don't do anything if we've finished already
+            break;
+        }
         }
     }
 
@@ -592,21 +582,17 @@ public class GameUi implements StatsChangedListener
 
     private static double getScrollBarProportion( JScrollBar scrollBar )
     {
-        return (
-              ( scrollBar.getValue() + ( scrollBar.getVisibleAmount() / 2 ) )
-            / (double)scrollBar.getMaximum()
-        );
+        return ( ( scrollBar.getValue() + ( scrollBar.getVisibleAmount() / 2 ) )
+            / (double)scrollBar.getMaximum() );
     }
 
     private static void setScrollBarFromProportion(
-        JScrollBar scrollBar, double proportion )
+        JScrollBar scrollBar,
+        double proportion )
     {
         scrollBar.setValue(
-            (int)(
-                  ( scrollBar.getMaximum() * proportion )
-                - ( scrollBar.getVisibleAmount() / 2 )
-            )
-        );
+            (int)( ( scrollBar.getMaximum() * proportion )
+                - ( scrollBar.getVisibleAmount() / 2 ) ) );
     }
 
     public boolean getMuted()
@@ -625,20 +611,20 @@ public class GameUi implements StatsChangedListener
     private Point pixelToCell( Point pixelPosition )
     {
         return new Point(
-                             ( pixelPosition.x - gameLaunch.graphics.renderer.offsetX )
-                               / worldTileSizeInPixels,
-                             ( pixelPosition.y - gameLaunch.graphics.renderer.offsetY )
-                               / worldTileSizeInPixels
-                               );
+            ( pixelPosition.x - gameLaunch.graphics.renderer.offsetX )
+                / worldTileSizeInPixels,
+            ( pixelPosition.y - gameLaunch.graphics.renderer.offsetY )
+                / worldTileSizeInPixels );
     }
-    boolean answer;
+
     private void click( Point pixelPosition )
     {
         Point p = pixelToCell( pixelPosition );
 
-        addToken( p.x , p.y );
+        addToken( p.x, p.y );
     }
-    protected void addToken(int tileX, int tileY )
+
+    protected void addToken( int tileX, int tileY )
     {
         if ( chosenAbility == null )
         {
@@ -647,16 +633,14 @@ public class GameUi implements StatsChangedListener
 
         int numLeft = gameLaunch.addToken( tileX, tileY, chosenAbility );
 
-
         if ( numLeft == 0 )
         {
             menu.abilities.get( chosenAbility ).setEnabled( false );
-                //menu.abilities.get( chosenAbility ).setEnabled( true );
+            // menu.abilities.get( chosenAbility ).setEnabled( true );
         }
 
         updateChosenAbility();
     }
-
 
     protected void chooseAbility( Token.Type ability )
     {
@@ -671,34 +655,53 @@ public class GameUi implements StatsChangedListener
             chosenAbility, gameLaunch.world.abilities.get( chosenAbility ) );
     }
 
+    public int answer;
+    public static boolean flag = false;
+
     @Override
     public void changed( int waiting, int out, int saved )
     {
         switch ( gameLaunch.world.completionState() )
         {
-            case WON:
-            case LOST:
+        case WON:
+        case LOST:
+        {
+            gameLaunch.stop();
+            break;
+        }
+        default:
+        {
+            if ( gameLaunch.world.topBarFlag )
             {
-                gameLaunch.stop();
-                break;
+                topBar.countTimer( gameLaunch.world.time );
             }
-            default:
+
+            if ( gameLaunch.world.flag )
             {
-                if(gameLaunch.world.flag){
-                        gameLaunch.world.setPaused( true );
-                        answer = gameLaunch.askBonus();
-                        if(answer){
-                            Set<Token.Type> keys2=gameLaunch.world.abilities.keySet();
-                            for (Type i : keys2) {
-                                gameLaunch.world.abilities.replace(i, 2);
-                            }
-                            
-                        }
-                        gameLaunch.world.flag = false;
-                        gameLaunch.world.setPaused( false );
+                flag = true;
+                answer = gameLaunch.bonus();
+                if ( answer == 1 )
+                {
+                    Set<Token.Type> keys2 = gameLaunch.world.abilities.keySet();
+                    for ( Type i : keys2 )
+                    {
+                        gameLaunch.world.abilities.replace( i, 2 );
+                    }
+                    Set<Token.Type> keys = gameLaunch.getAbilities().keySet();
+                    for ( Token.Type i : keys )
+                    {
+                        menu.abilities.get( i ).setEnabled( true );
+                    }
+                    updateChosenAbility();
+
                 }
-                break;
+                gameLaunch.world.flag = false;
+                gameLaunch.loop.run();
+                flag = false;
+
             }
+            break;
+        }
         }
     }
 
