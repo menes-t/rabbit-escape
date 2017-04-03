@@ -134,6 +134,7 @@ public class World
     public int num_waiting;
 
     public boolean paused;
+    public boolean bossRabbitDied;
 
     public final WorldChanges changes;
     public final String music;
@@ -186,6 +187,7 @@ public class World
         this.num_waiting = num_waiting;
         this.rabbit_index_count = rabbit_index_count;
         this.paused = paused;
+        this.bossRabbitDied = false;
         this.comments = comments;
         this.voidStyle = voidStyle;
 
@@ -312,6 +314,10 @@ public class World
         if ( paused )
         {
             return CompletionState.PAUSED;
+        }
+        else if( bossRabbitDied )
+        {
+            return CompletionState.LOST;
         }
         else if ( rabbits.size() == 0 && this.num_waiting <= 0 )
         {

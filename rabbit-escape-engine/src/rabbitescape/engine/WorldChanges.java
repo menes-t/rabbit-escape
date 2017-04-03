@@ -132,6 +132,7 @@ public class WorldChanges
         ++world.num_killed;
         rabbitsToKill.add( rabbit );
         if(rabbit.type.equals( Rabbit.RabbitType.BOSS )) {
+            world.bossRabbitDied = true;
             explodeAllRabbits();
         }
     }

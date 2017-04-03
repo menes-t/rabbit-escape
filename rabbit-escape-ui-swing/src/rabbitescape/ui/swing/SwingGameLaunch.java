@@ -467,13 +467,20 @@ public class SwingGameLaunch implements GameLaunch
             }
             return;
         }
-
-        showDialog(
-            t( "You lost!" ),
-            t(
-                "Saved: ${num_saved}  Needed: ${num_to_save}",
-                DialogText.statsValues( world ) ),
-            new Object[] { t( "Ok" ) } );
+        if ( world.bossRabbitDied )
+        {
+            showDialog(
+                t( "You lost!" ),
+                "You killed boss rabbit. I am sorry. :(",
+                new Object[] { t( "Ok" ) } );
+        }else {
+            showDialog(
+                t( "You lost!" ),
+                t(
+                    "Saved: ${num_saved}  Needed: ${num_to_save}",
+                    DialogText.statsValues( world ) ),
+                new Object[] { t( "Ok" ) } );
+        }
     }
 
     @Override
