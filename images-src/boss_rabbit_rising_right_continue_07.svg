@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="rabbit_rising_right_continue_07.svg">
+   sodipodi:docname="boss_rabbit_rising_right_continue_07.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,14 +24,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="37.609242"
-     inkscape:cx="47.301247"
-     inkscape:cy="59.031104"
+     inkscape:zoom="9.4023105"
+     inkscape:cx="67.777625"
+     inkscape:cy="62.607983"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="980"
+     inkscape:window-width="1366"
+     inkscape:window-height="717"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -57,7 +57,7 @@
        rx="3.0224929"
        cy="647.27185"
        cx="746.48987"
-       style="fill:#4d4d4b;fill-opacity:1;stroke:#000000;stroke-width:0.89481699;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.89481699;stroke-opacity:1"
        id="path3772-7-0"
        transform="matrix(0.68912739,0.72464021,-0.72464021,0.68912739,0,0)" />
     <ellipse
@@ -72,7 +72,7 @@
        rx="3.3777778"
        cy="905.82416"
        cx="454.87622"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
        id="path3766-4"
        transform="matrix(0.90630778,0.42261827,-0.42261827,0.90630778,0,0)" />
     <ellipse
@@ -80,7 +80,7 @@
        rx="5.872519"
        cy="822.29285"
        cx="801.14874"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.13951123;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.13951123;stroke-opacity:1"
        id="path3768-4"
        transform="matrix(0.81973713,0.57273994,-0.75049928,0.66087127,0,0)" />
     <ellipse
@@ -104,7 +104,7 @@
        rx="3.3777778"
        cy="728.51422"
        cx="668.96606"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
        id="path3772-3"
        transform="matrix(0.76604444,0.64278762,-0.64278762,0.76604444,0,0)" />
     <circle

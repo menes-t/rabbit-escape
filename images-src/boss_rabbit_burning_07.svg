@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="rabbit_burning_07.svg">
+   sodipodi:docname="boss_rabbit_burning_07.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -31,9 +31,9 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1357"
-     inkscape:window-height="932"
-     inkscape:window-x="409"
-     inkscape:window-y="16"
+     inkscape:window-height="768"
+     inkscape:window-x="7"
+     inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -43,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -102,7 +102,7 @@
        rx="2.7071435"
        ry="2.8577108" />
     <ellipse
-       style="opacity:0.33000004;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.00200331;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.33000004;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.00200331;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3772"
        transform="matrix(0.99786183,0.06535871,-0.1542,0.98803966,0,0)"
        cx="172.42447"
@@ -118,7 +118,7 @@
        rx="3.7733941"
        ry="3.7786934" />
     <ellipse
-       style="opacity:0.33000004;fill:#4d4d4b;fill-opacity:1;stroke:#000000;stroke-width:1.00051284;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.33000004;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.00051284;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3772-7"
        transform="matrix(0.87484053,0.48441103,-0.44432017,0.89586806,0,0)"
        cx="475.58783"
