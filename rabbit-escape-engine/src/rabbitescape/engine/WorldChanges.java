@@ -144,7 +144,7 @@ public class WorldChanges
 
     public synchronized void saveRabbit( Rabbit rabbit )
     {
-        ++world.num_saved;
+        if(rabbit.type.equals( Rabbit.RabbitType.NORMAL )) ++world.num_saved;
         rabbitsToSave.add( rabbit );
     }
 

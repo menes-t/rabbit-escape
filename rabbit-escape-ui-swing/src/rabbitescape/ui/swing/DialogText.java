@@ -72,6 +72,29 @@ public class DialogText
 
         return ret;
     }
+    static String bosswarningHtml( World world )
+    {
+        if ( world.num_boss_rabbits == 0 )
+        {
+            return "";
+        }
+
+        String ret = "<p class='lower'>";
+
+        ret += format(
+                "The world has ${numOfBossRabbits}. " +
+                    "Boss rabbits are black. " +
+                    "They are not counted as saved " +
+                    "although they always need to be saved.",
+                Util.newMap( "numOfBossRabbits", world.num_boss_rabbits == 1 ?
+                world.num_boss_rabbits+" boss rabbit" : world.num_boss_rabbits+" boss rabbits")
+        );
+
+
+        ret += "</p>";
+
+        return ret;
+    }
 
     static Component introText(
         Component parent, World world )
@@ -97,6 +120,7 @@ public class DialogText
             + "</style>"
             + "${description}"
             + "${stats}"
+            + "${bosswarning}"
             + "${author}",
             Util.newMap(
                 "font-family", font.getName(),
@@ -104,7 +128,8 @@ public class DialogText
                 "font-weight", font.getStyle() == Font.BOLD ? "bold" : "normal",
                 "description", descriptionHtml( world ),
                 "stats", statsHtml( world ),
-                "author", authorHtml( world )
+                "author", authorHtml( world ),
+                "bosswarning", bosswarningHtml( world )
             )
         );
 
